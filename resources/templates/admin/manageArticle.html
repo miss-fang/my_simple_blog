@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!--<head th:replace="admin/header::admin-header('文章管理')">-->
+    <head th:replace="user/header::header-head('文章管理')">
+</head>
+<body>
+<style>
+    tr td{
+        text-align: center;
+    }
+    tr th{
+        text-align: center;
+
+    }
+</style>
+<div class="container-fluid">
+    <table class="col-sm-12 col-md-12 col-xs-12" style="border: solid 1px; border-spacing:10px;border-collapse:separate;margin-top: 10%;margin-bottom: auto;" th:with="objs=${articles}">
+        <tr style="font-size: 25px;color: deeppink;">
+            <th colspan="8" th:text="管理文章"></th>
+        </tr>
+        <tr>
+            <th th:text="标题"></th>
+            <th th:text="发布时间"></th>
+            <th th:text="修改时间"></th>
+            <th th:text="浏览量"></th>
+            <th th:text="评论数"></th>
+            <th th:text="分类"></th>
+            <th th:text="标签"></th>
+            <th th:text="操作"></th>
+        </tr>
+        <!--用div居然不行，用span可以-->
+        <span th:each="obj:${objs}">
+            <tr th:if="${obj}">
+                <td th:text="${obj.title}"></td>
+                <td th:text="${obj.created}"></td>
+                <td th:text="${obj.modified==null?'':obj.modified}"></td>
+                <td th:text="${obj.hits==null?'0':obj.hits}"></td>
+                <td th:text="${obj.commentsNum==null?'0':obj.commentsNum}"></td>
+                <td th:text="${obj.categories}"></td>
+                <td th:text="${obj.tags}"></td>
+                <td>
+                    <a th:href="@{'/admin/edit_article/'+${obj.id}}" class="btn btn-primary btn-sm" th:text="编辑"></a>
+                    <a th:href="@{'/admin/deleteArticle/'+${obj.id}}" class="btn btn-danger btn-sm" th:text="删除"></a>
+                    <a th:href="@{'/article/'+${obj.id}}" class="btn btn-info btn-sm" th:text="预览"></a>
+                    <a th:href="@{'/admin/allowComment/'+${obj.id}}" class="btn btn-default btn-sm" th:text="允许评论"></a>
+                </td>
+            </tr>
+        </span>
+    </table>
+    <!--分页-->
+    <div class="col-sm-12 col-md-12 col-xs-12 text-center" style="margin-top: 100px;font-size: 25px;"
+         th:with="curPage=${curPage},lastPage=${lastPage}">
+        <ul class="list-inline">
+            <li th:if="${curPage ge 1}"><a th:href="@{/admin/manage_article(page=(${curPage}-1))}"><span
+                    class="glyphicon glyphicon-chevron-left lead" style="text-shadow: black 3px 0px 3px;"></span></a></li>
+            <li th:if="${curPage ge 2}"><a th:href="@{/admin/manage_article(page=(${curPage}-2))}"><span
+                    th:text="${curPage}-1"></span></a></li>
+            <li th:if="${curPage ge 1}"><a th:href="@{/admin/manage_article(page=(${curPage}-1))}"><span
+                    th:text="${curPage}"></span></a></li>
+            <li><a th:href="@{/admin/manage_article(page=(${curPage}))}"><span th:text="${curPage}+1" style="color: red;"></span></a></li>
+            <li th:if="${curPage+1 le lastPage}"><a th:href="@{/admin/manage_article(page=(${curPage}+1))}"><span
+                    th:text="${curPage}+2"></span></a></li>
+            <li th:if="${curPage+2 le lastPage}"><a th:href="@{/admin/manage_article(page=(${curPage}+2))}"><span
+                    th:text="${curPage}+3"></span></a></li>
+            <li th:if="${curPage+1 le lastPage}"><a th:href="@{/admin/manage_article(page=(${curPage}+1))}"><span
+                    class="glyphicon glyphicon-chevron-right lead" style="text-shadow: black -3px 0px 3px;"></span></a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

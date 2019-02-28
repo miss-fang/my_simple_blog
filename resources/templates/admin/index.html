@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- js代码放body里，因为这个head被replace了-->
+<head th:replace="admin/header::admin-header('后台首页')">
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="admin/header::admin-body"></div>
+    <!--左边侧边栏-->
+    <div style="margin-top:10vh;margin-bottom: 8vh;min-height: 50vh;height: 80%;">
+        <div class="col-sm-4 col-md-3 col-xs-8 pull-left" style="background-color: #2e383c">
+            <!--a标签最后3个属性使文字居中-->
+            <style>
+                li a {
+                    height: 10vh;
+                    font-size: 2.5rem;
+                    color: whitesmoke;
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+                    padding-left: 25%;
+                }
+            </style>
+            <!--这个就使用编辑页面吧-->
+            <li><a th:href="@{/admin/edit_article}" th:text="写文章"></a></li>
+            <li><a th:href="@{/admin/manage_article}" th:text="管理文章"></a></li>
+            <li><a th:href="@{/admin/manage_comment}" th:text="管理评论"></a></li>
+            <li><a th:href="@{/admin/manage_link}" th:text="管理链接"></a></li>
+            <!--<li><a th:href="@{/admin/manage_file}" th:text="管理文件"></a></li>-->
+        </div>
+        <!--右边内容，好想做成局部刷新-->
+    </div>
+    <div th:replace="user/footer::user-footer"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- js代码放body里，因为这个head被replace了-->
+<head th:replace="admin/header::admin-header('修改密码')">
+</head>
+<body>
+	<div class="container">
+		<div class="row" style="margin-top:20vh;height: 80%;min-height: 50vh;max-width: 40vh;">
+		<form th:action="@{/admin/savePass}" method="post">
+		新密码：<input type="text" class="form-control" name="pass" minlength="6"/><br>
+		<input type="submit" class="form-control" value="提交" style="margin-top:5vh;"/>
+		</form>
+		</div>
+		<div th:replace="user/footer::user-footer"></div>
+	</div>
+</body>
+</html>

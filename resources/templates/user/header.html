@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header-head(title)">
+	<meta name="content-type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="${title!=null?title:'no-title'}"></title>
+    <link th:href="@{/user/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/user/js/jquery-2.1.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/user/js/bootstrap.min.js}"></script>
+<!-- <script type="text/javascript">
+          $("#enterKey").keypress(function (event) {
+            var keyCode = event.which;
+            if (keyCode == 13) {
+                search();
+            }
+        }); 
+
+</script> -->
+</head>
+
+<body>
+<div class="navbar navbar-static-top" th:fragment="header-body">
+    <a id="top"></a>
+    <div style="position: fixed;right:10%;bottom: 10%"><a href="#top"><span style="font-size: 35px;"
+                                                                                class="glyphicon glyphicon-arrow-up"></span></a>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-xs-3 col-md-2">
+            <img th:src="@{/user/img/logo.jpg}" style="height: 100%;width: 100%;"/>
+        </div>
+        <div class="col-sm-6 col-xs-9 col-md-6 text-center">
+            <ul class="list-inline" style="padding-top: 1.6vh;">
+                <li><a th:href="@{/article/index}" class="text-primary"><h2>文章</h2></a></li>
+                <li style="padding-left: 2.8vh;"><a th:href="@{/article/link}" class="text-primary"><h2>链接</h2></a></li>
+                <li style="padding-left: 2.8vh;"><a th:href="@{/article/about}" class="text-primary"><h2>关于</h2></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 hidden-xs col-md-4">
+            <form  style="padding-top: 3.5vh;" th:action="@{/article/keyword}" th:method="post">
+                <ul class="list-inline">
+                    <li><input name="keyword" class="form-control" type="text" placeholder="关键词查找" minlength="1" maxlength="400px"/></li>
+                    <!-- <span class="glyphicon glyphicon-search lead" style="text-shadow: black 2px -2px 3px;"/> -->
+                    <li><input type="submit" class="btn btn-info btn-small" value="查询" style="text-shadow: black 3px -3px 3px;"></input></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

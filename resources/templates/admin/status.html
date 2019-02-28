@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- js代码放body里，因为这个head被replace了-->
+<head th:replace="admin/header::admin-header('错误信息')">
+</head>
+<body>
+<div class="container">
+<p th:text="${message}"></p>
+</div>
+<div th:replace="user/footer::user-footer"></div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!--<head th:replace="admin/header::admin-header('文章管理')">-->
+<head th:replace="user/header::header-head('链接管理')">
+</head>
+<body>
+<style>
+    tr td{
+        text-align: center;
+    }
+    tr th{
+        text-align: center;
+
+    }
+</style>
+<div class="container-fluid">
+    <table class="col-sm-12 col-md-12 col-xs-12" style="border: solid 1px;border-spacing:10px;border-collapse:separate;margin-top: 10%;margin-bottom: auto;" th:with="objs=${links}">
+        <tr style="font-size: 25px;color: deeppink;">
+            <th colspan="3" th:text="管理链接"></th>
+        </tr>
+        <tr>
+            <th th:text="链接名"></th>
+            <th th:text="地址"></th>
+            <th th:text="操作"></th>
+        </tr>
+        <!--用div居然不行，用span可以-->
+        <span th:each="obj:${objs}">
+            <tr th:if="${obj}">
+                <td th:text="${obj.name}"></td>
+                <td th:text="${obj.url}"></td>
+                <td>
+                    <!--<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" onclick="'updateLink('+${obj.name}+')'" th:text="编辑链接"></button>-->
+                    <a th:href="@{'/admin/updateLink/'+${obj.id}}" class="btn btn-info btn-sm" th:text="编辑链接"></a>
+                    <a th:href="@{'/admin/deleteLink/'+${obj.id}}" class="btn btn-danger btn-sm" th:text="删除"></a>
+                </td>
+            </tr>
+        </span>
+    </table>
+    <!--使用模态框-->
+    <!--button不能写一个自闭合标签，否则格式不对-->
+    <button class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#myModal" th:text="添加链接" style="margin-top: 20px"></button>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" th:text="添加">
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <style>
+                        input{
+                            line-height: 25px;
+                            margin-top: 15px;
+                        }
+                    </style>
+                    <input type="text" id="name" class="form-control" placeholder="链接名"/>
+                    <input type="text" id="url" class="form-control" placeholder="链接地址"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" th:text="关闭">
+                    </button>
+                    <button type="button" class="btn btn-primary" th:text="确定" onclick="saveLink()">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function saveLink() {
+        var name = $("#name").val().replace(/(^\s*)|(\s*$)/g, '');
+        var url = $("#url").val().replace(/(^\s*)|(\s*$)/g, '');
+        if (name == undefined || name == '')
+            alert('名字不能为空');
+        else if (url == undefined || url == '')
+            alert('地址不能为空');
+        else $.ajax({
+                url: "saveLink",
+                type: "get",
+                data: {name: name, url: url},
+                dateType: "text",
+                success: function (data) {
+                    alert(data);
+                }
+            });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- js代码放body里，因为这个head被replace了-->
+<head th:replace="user/header::header-head('查找结果')">
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="user/header::header-body"></div>
+    <div class="container" style="margin-bottom: 8vh;min-height: 45vh;" th:with="objs=${articles}">
+        <div th:each="obj:${objs}">
+            <div class="col-sm-6 col-xs-12 col-md-6  pull-left" style="margin-top: 30px;">
+
+                <div class="col-sm-8 col-md-8 col-xs-10">
+                    <a th:href="@{'/article/'+${obj.id}}"><img style="height:100%;width:100%;" th:src="@{'/user/img/a'+${obj.rand}+'.jpg'}"
+                                    alt="graphic"/></a>
+                    <div style="margin-top: 15px;word-wrap: break-word;">
+                        <a th:href="@{'/article/'+${obj.id}}"><p style="font-size: 16px;color: black;margin-left: 10px;margin-right: 10px;" th:text="${obj.title}"></p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="user/footer::user-footer"></div>
+</div>
+</body>
+</html>

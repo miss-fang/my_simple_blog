@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>admin登录</title>
+    <link th:href="@{/user/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body
+      style="background-image:url('/myBlog/user/img/login.jpg');background-position:center 0px;background-size:cover;background-repeat: no-repeat;" >
+    <div style="margin-top:10%;margin-right:40%;margin-left: 40%">
+        <form th:action="@{/admin/login}" method="post">
+            <p class="text-center" th:if="${errorMsg}" th:text="${errorMsg}" style="color:red;font-size:20px;max-width: 300px;margin-left: auto;margin-right: auto;"></p>
+            <input class="form-control" type="text" id="username" name="username" minlength="3" required="required"
+                   placeholder="用户名" style="max-width: 300px;margin-top: 10px;"/>
+            <input class="form-control" type="password" id="password" name="password" minlength="8" required="required"
+                   placeholder="密码" style="max-width: 300px;margin-top: 15px;"/>
+            <input class="form-control" type="submit" value="登录" style="background-color:#7BD827;max-width: 100px;margin-top: 15px;margin-left: auto;margin-right: auto;"/>
+        </form>
+    </div>
+</body>
+</html>

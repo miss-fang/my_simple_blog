@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--还需要修改配置，暂时就这样-->
+<!-- 该xml配置中,xml元素大小写不敏感 -->
+<!-- status="off",log4j2把自身事件记录到控制台的配置，off表示不记录，其余的记录有trace，debug，info，warn，error，fatal -->
+<!-- monitorInterval表示检测更改配置的时间,单位是秒,最小间隔为5秒,0或负数表示不检测 -->
+<configuration name="test-cfg" status="warn" monitorInterval="0">
+
+    <!-- 常量引用 -->
+    <properties>
+    <!-- linux下 -->
+        <property name="LOG_HOME">/usr/logs/</property>
+       <!--  <property name="LOG_HOME">./logs</property> this will create in tomcat/bin/-->
+        <property name="FORMAT">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</property>
+    </properties>
+
+    <!-- appender用于接收各种日志 -->
+    <appenders>
+        <!-- 常见的输出到console,常用于开发环境中,默认是system_err,还有一个system_out -->
+      <!--   <console name="console" target="system_err">
+            appender级别的日志过滤
+            <thresholdFilter level="info" onMatch="accept" onMismatch="deny"/>
+            <patternLayout pattern="${FORMAT}"/>
+        </console> -->
+        <!-- 常用于开发环境,把日志记录到文件中,默认追加 -->
+       <!--  <file name="db_log" fileName="${LOG_HOME}/my-blog-db.log" append="true">
+            <patternLayout pattern="${FORMAT}"/>
+        </file> -->
+        <file name="service_log" fileName="${LOG_HOME}/my-blog-service.log" append="true">
+            <patternLayout pattern="${FORMAT}"/>
+        </file>
+        <!--只输出info及以下的记录-->
+  <!--       <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/logs/info.log"
+                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="${FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+        </RollingFile> -->
+        <!--只接收warn-->
+        <RollingFile name="RollingFileWarn" fileName="${LOG_HOME}/logs/warn.log"
+                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10 -->
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <!--只接收error-->
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}/logs/error.log"
+                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="${FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <!-- 接收appender -->
+    <loggers>
+        <logger name="org.apache.http" level="warn"/>
+        
+        <!-- Spring -->
+        <logger name="org.springframework" level="warn"/>
+        
+        <!-- mybatis loggers -->
+        <!--   <logger name="com.ibatis" level="DEBUG"/>
+           <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+           <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
+           <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>-->
+           
+        <!-- sql loggers -->
+        
+        <logger name="java.sql.Connection" level="warn" additivity="true"/>
+        <logger name="java.sql.Statement" level="warn" additivity="true"/>
+        <logger name="java.sql.PreparedStatement" level="warn" additivity="true"/>
+        <logger name="java.sql.ResultSet" level="warn" additivity="true"/>
+        <logger name="org.apache" level="WARN"/>
+        
+        
+
+        <!-- 对包进行更详细的配置 -->
+        <!-- additivity表示是否追加到root,防止重复,因为root已经接收过一次了 -->
+       <!--  <logger name="com.cl.model.repo" level="info" additivity="false">
+            <appender-ref ref="db_log"/>
+        </logger> -->
+        <!-- 此处定义后，java类中使用LoggerFactory.getLogger("admin_logger")即可获取相应实例 -->
+        <logger name="admin_logger" level="info" additivity="true">
+            <appender-ref ref="service_log"/>
+        </logger>
+        <logger name="exception_logger" level="error" additivity="true">
+        <appender-ref ref="service_log"/>
+        </logger>
+        <logger name="interceptor_logger" level="info" additivity="true">
+        <appender-ref ref="service_log"/>
+        </logger>
+        <logger name="mail_logger" level="info" additivity="true">
+        <appender-ref ref="service_log"/>
+        </logger>
+        <!-- root logger,一般用于放置所有的appender -->
+        <root level="warn">
+            <!-- <appender-ref ref="db_log"/> -->
+            <!-- <appender-ref ref="console"/> -->
+            <!-- <appender-ref ref="RollingFileInfo"/> -->
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+
+</configuration>

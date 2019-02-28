@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<!-- js代码放body里，因为这个head被replace了-->
+<head th:replace="user/header::header-head('link')">
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="user/header::header-body"></div>
+    <div class="container" style="margin-bottom: 8vh;min-height: 45vh;">
+        <div class="row col-sm-offset-2 col-xs-offset-2">
+            <style>
+                ul li{
+                    line-height: 30px;
+                    font-size: 20px;
+                }
+            </style>
+            <h3 th:text="友情链接"></h3>
+            <ul th:if="${links}" th:each="link:${links}">
+                <li class="col-sm-4 col-md-4 col-xs-12 pull-left"><a th:href="@{${link.url}}" target="_blank"><span th:text="${link.name}"></span></a></li>
+            </ul>
+        </div>
+        <div class="row col-sm-offset-2 col-xs-offset-2" style="margin-top: 50px;">
+            <h3 th:text="链接详情"></h3>
+            <ul style="font-size: 20px;line-height: 20px;">
+                <li>收藏的技术类网站</li>
+                <li>精选其他博客主页</li>
+                <li>其他个人爱好</li>
+                <li>无效的链接会定期清理</li>
+            </ul>
+        </div>
+    </div>
+    <div th:replace="user/footer::user-footer"></div>
+</div>
+</body>
+</html>

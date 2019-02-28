@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="admin-header(title)">
+    <meta name="content-type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="${title!=null?title:'no-title'}"></title>
+    <link th:href="@{/user/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/user/js/jquery-2.1.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/user/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="navbar navbar-static-top" th:fragment="admin-body">
+
+    <script type="text/javascript">
+        function showOptions() {
+            document.getElementById("select").style.display == "inline"
+                ? document.getElementById("select").style.display = "none"
+                : document.getElementById("select").style.display = "inline";
+        }
+    </script>
+    <a id="top"></a>
+    <div style="position: fixed;right:10%;bottom: 10%;"><a href="#top"><span style="font-size: 35px;"
+                                                                                class="glyphicon glyphicon-arrow-up"></span></a>
+    </div>
+
+    <div class="col-sm-4 col-xs-6 col-md-3 pull-left">
+        <img th:src="@{/user/img/logo.jpg}" style="height: 100%;width: 100%;"/>
+    </div>
+    <div class="col-sm-2 col-xs-2 col-md-2 pull-right" style="margin-top: 5vh;">
+        <style>
+        ul{
+        position:fixed;
+        right:10%;
+        display: none;
+        }
+        ul li{
+            list-style: none;
+            position: fixed;
+            right:10%;
+        }
+    </style>
+        <a href="javascript:void(0);" onclick="showOptions()"><span class="glyphicon glyphicon-cog lead" style="position:fixed;right:10%;"></span></a>
+        <ul id="select">
+            <li style="margin-top: 2vh;"><a th:href="@{/admin/logout}"><span class="glyphicon glyphicon-off" style="color:red;"></span></a>
+            <!-- <span th:text="注销" style="margin-left: 10px;"></span> -->
+                    </li>
+            <li style="margin-top: 8vh;"><a th:href="@{/admin/changePass}"><span class="glyphicon glyphicon-edit" style="color:green;"></span></a>
+                <!-- <span th:text="修改密码" style="margin-left: 10px;"></span> -->
+                </li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>
+
