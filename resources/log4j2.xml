@@ -97,16 +97,16 @@
             <appender-ref ref="db_log"/>
         </logger> -->
         <!-- 此处定义后，java类中使用LoggerFactory.getLogger("admin_logger")即可获取相应实例 -->
-        <logger name="admin_logger" level="info" additivity="true">
+        <logger name="admin_logger" level="info" additivity="false">
             <appender-ref ref="service_log"/>
         </logger>
-        <logger name="exception_logger" level="error" additivity="true">
+        <logger name="exception_logger" level="error" additivity="false">
         <appender-ref ref="service_log"/>
         </logger>
-        <logger name="interceptor_logger" level="info" additivity="true">
+        <logger name="interceptor_logger" level="info" additivity="false">
         <appender-ref ref="service_log"/>
         </logger>
-        <logger name="mail_logger" level="info" additivity="true">
+        <logger name="mail_logger" level="info" additivity="false">
         <appender-ref ref="service_log"/>
         </logger>
         <!-- root logger,一般用于放置所有的appender -->
